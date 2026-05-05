@@ -13,6 +13,7 @@ def test_health_check():
 
     assert response.status_code == 200
     assert response.json() == {"status": "ok"}
+    assert "X-Latency-ms" in response.headers
 
 
 def test_predict_endpoint():
@@ -32,3 +33,4 @@ def test_predict_endpoint():
     assert "threshold" in data
     assert 0 <= data["churn_probability"] <= 1
     assert data["prediction"] in [0, 1]
+    assert "X-Latency-ms" in response.headers

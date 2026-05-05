@@ -9,6 +9,7 @@ A solução foi construída de ponta a ponta, incluindo:
 * Análise exploratória dos dados (EDA)
 * Modelagem com algoritmos tradicionais e redes neurais
 * Comparação de modelos com métricas técnicas e de negócio
+* Feature engineering orientado a comportamento do cliente
 * Deploy de um modelo via API REST
 * Estruturação do projeto seguindo boas práticas de engenharia de ML
 
@@ -108,6 +109,30 @@ Além da previsão, o projeto considera:
 
 ---
 
+### 📌 Etapa 4 — Evolução do Modelo (Feature Engineering)
+
+Após a implementação inicial da rede neural, foi identificado que o modelo apresentava bom recall, porém com custo elevado devido ao número de falsos positivos.
+
+Para melhorar a eficiência da estratégia de retenção, foi conduzido um novo experimento com **feature engineering orientado a comportamento do cliente**.
+
+---
+
+## 🔬 Feature Engineering
+
+Foram criadas variáveis derivadas com base em hipóteses de negócio:
+
+* `avg_charge_per_tenure`: relação entre valor pago e tempo de contrato  
+* `is_month_to_month`: contratos mensais (maior risco de churn)  
+* `has_fiber`: clientes com internet fibra  
+* `has_tech_support` e `has_online_security`: proxies de engajamento  
+* `is_new_customer` e `is_long_term_customer`: maturidade do cliente  
+* `num_services`: número de serviços contratados  
+* `charge_per_service`: custo médio por serviço  
+
+Essas variáveis ajudam o modelo a capturar padrões que não são explicitamente representados nos dados originais.
+
+---
+
 ## 🤖 Modelos Utilizados
 
 | Modelo              | ROC-AUC | Observações                   |
@@ -117,13 +142,55 @@ Além da previsão, o projeto considera:
 | Random Forest       | ~0.82   | Modelo intermediário          |
 | Dummy               | 0.50    | Baseline                      |
 
-### 💡 Insight
-
-O melhor modelo técnico (AUC) não necessariamente é o melhor modelo de negócio.
-
-A MLP apresentou melhor capacidade de identificar churn, sendo mais adequada para estratégias de retenção.
+| Modelo              | ROC-AUC | Recall | Precision | F1 | Valor Líquido | Custo Total |
+|--------------------|--------|--------|-----------|-----|---------------|------------|
+| Regressão Logística | ~0.84 | - | - | - | - | - |
+| Random Forest       | ~0.82 | - | - | - | - | - |
+| MLP (baseline)      | 0.833 | 0.782 | 0.505 | 0.613 | 27.408 | 35.123 |
+| MLP (class weights) | 0.834 | 0.904 | 0.455 | 0.605 | 26.200 | 36.329 |
+| **MLP (feature eng.)** | **0.850** | 0.689 | **0.581** | **0.631** | **29.202** | **33.329** |
 
 ---
+
+## 🏆 Modelo Selecionado
+
+Embora o modelo anterior apresentasse maior recall, o modelo com feature engineering demonstrou melhor desempenho global, principalmente em métricas de negócio.
+
+Principais melhorias do MLP v2:
+
+* Melhor ROC-AUC (melhor capacidade de ranking)
+* Maior precisão (redução de falsos positivos)
+* Menor custo operacional
+* Maior valor líquido
+
+Assim, o **MLP v2 foi escolhido como melhor candidato para produção**.
+
+---
+
+## 🧠 Insights Principais
+
+* Feature engineering teve impacto direto na performance do modelo  
+* O melhor modelo técnico não é necessariamente o melhor modelo de negócio  
+* Redução de falsos positivos é fundamental para eficiência operacional  
+* Métricas de negócio devem guiar a decisão final  
+
+---
+
+## ⚙️ Deploy e Versionamento
+
+A API suporta múltiplas versões de modelo via variável de ambiente:
+
+- MODEL_VERSION=v1
+- MODEL_VERSION=v2
+
+Isso permite:
+
+* comparação entre modelos em produção  
+* rollback seguro  
+* evolução contínua do modelo  
+
+---
+
 
 ## 🚀 Como Executar
 
@@ -264,11 +331,3 @@ Mateus Saldanha
 
 ---
 
-## 🎥 Entrega
-
-* Repositório GitHub ✔
-* API funcional ✔
-* Pipeline completo ✔
-* (Em andamento) Vídeo STAR
-
----

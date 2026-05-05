@@ -7,6 +7,7 @@ import torch
 
 from churn_model.config import METADATA_PATH, MODEL_PATH, PREPROCESSOR_PATH
 from churn_model.model import ChurnMLP
+from churn_model.data_schema import validate_prediction_input
 
 
 def load_metadata() -> dict:
@@ -33,6 +34,7 @@ def predict_churn(input_data: dict) -> dict:
     preprocessor = load_preprocessor()
 
     df = pd.DataFrame([input_data])
+    df = validate_prediction_input(df)
 
     X_processed = preprocessor.transform(df)
     input_dim = X_processed.shape[1]

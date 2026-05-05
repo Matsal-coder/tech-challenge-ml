@@ -1,0 +1,28 @@
+[project]
+name = "tech-challenge-ml"
+version = "0.1.0"
+description = "End-to-end churn prediction project with PyTorch, MLflow and FastAPI"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "pydantic",
+    "pandas",
+    "numpy",
+    "scikit-learn",
+    "torch",
+    "mlflow",
+    "joblib",
+    "pytest",
+    "ruff",
+    "pandera",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

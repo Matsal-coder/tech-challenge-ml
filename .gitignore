@@ -25,3 +25,6 @@ mlflow.db
 Thumbs.dbmlruns/
 __pycache__/
 .venv/
+*.egg-info/
+__pycache__/
+.pytest_cache/

@@ -1,7 +1,8 @@
 import logging
 import time
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, HTTPException, Request
+from pandera.errors import SchemaError, SchemaErrors
 
 from churn_model.logging_config import configure_logging
 from churn_model.predict import predict_churn
@@ -47,10 +48,28 @@ def health_check() -> dict:
 @app.post("/predict", response_model=PredictionResponse)
 def predict(request: PredictionRequest) -> dict:
     logger.info("prediction_requested")
-    result = predict_churn(request.features)
+
+    try:
+        result = predict_churn(request.features)
+
+    except (SchemaError, SchemaErrors) as error:
+        logger.warning("prediction_validation_error error=%s", str(error))
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid input data for prediction.",
+        ) from error
+
+    except Exception as error:
+        logger.exception("prediction_internal_error")
+        raise HTTPException(
+            status_code=500,
+            detail="Internal prediction error.",
+        ) from error
+
     logger.info(
         "prediction_completed prediction=%s probability=%.4f",
         result["prediction"],
         result["churn_probability"],
     )
+
     return result

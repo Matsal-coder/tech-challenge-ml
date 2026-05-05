@@ -39,3 +39,15 @@ def test_predict_rejects_invalid_payload():
     response = client.post("/predict", json={"wrong_key": {}})
 
     assert response.status_code == 422
+
+def test_predict_rejects_extra_feature():
+    payload = {
+        "features": {
+            "unexpected_column": "invalid",
+        }
+    }
+
+    response = client.post("/predict", json=payload)
+
+    assert response.status_code == 400
+    assert response.json()["detail"] == "Invalid input data for prediction."

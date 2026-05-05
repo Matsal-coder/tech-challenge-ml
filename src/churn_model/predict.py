@@ -1,4 +1,5 @@
 import json
+from functools import lru_cache
 
 import joblib
 import pandas as pd
@@ -13,11 +14,13 @@ def load_metadata() -> dict:
         return json.load(file)
 
 
+@lru_cache
 def load_preprocessor():
     return joblib.load(PREPROCESSOR_PATH)
 
 
-def load_model(input_dim: int) -> ChurnMLP:
+@lru_cache
+def load_model(input_dim: int):
     model = ChurnMLP(input_dim=input_dim)
     state_dict = torch.load(MODEL_PATH, map_location="cpu")
     model.load_state_dict(state_dict)

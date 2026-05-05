@@ -1,0 +1,23 @@
+{
+    "features": {
+        "Gender": "Male",
+        "Senior Citizen": "No",
+        "Partner": "Yes",
+        "Dependents": "Yes",
+        "Tenure Months": 33,
+        "Phone Service": "Yes",
+        "Multiple Lines": "No",
+        "Internet Service": "DSL",
+        "Online Security": "No",
+        "Online Backup": "Yes",
+        "Device Protection": "Yes",
+        "Tech Support": "Yes",
+        "Streaming TV": "Yes",
+        "Streaming Movies": "Yes",
+        "Contract": "Two year",
+        "Paperless Billing": "No",
+        "Payment Method": "Credit card (automatic)",
+        "Monthly Charges": 82.1,
+        "Total Charges": 2603.1
+    }
+}

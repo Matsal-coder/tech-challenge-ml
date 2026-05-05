@@ -79,8 +79,8 @@ Além da previsão, o projeto considera:
 
 * Definição de custo:
 
-  * Falso positivo → custo de campanha
-  * Falso negativo → perda de receita
+  * Falso positivo → custo de campanha → R$100
+  * Falso negativo → perda de receita → ticket médio × meses de retenção
 * Otimização de threshold
 * Cálculo de valor líquido
 
@@ -107,6 +107,11 @@ Além da previsão, o projeto considera:
   * API
   * Casos de erro
 
+* Testes cobrem:
+
+- validação de input
+- funcionamento da API
+- casos de erro
 ---
 
 ### 📌 Etapa 4 — Evolução do Modelo (Feature Engineering)

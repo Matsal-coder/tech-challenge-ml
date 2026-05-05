@@ -14,6 +14,7 @@ def test_prediction_response_schema_accepts_valid_prediction():
         churn_probability=0.73,
         prediction=1,
         threshold=0.5,
+        model_version="v2",
     )
 
     assert response.prediction == 1

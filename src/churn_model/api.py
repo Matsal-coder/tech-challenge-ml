@@ -7,6 +7,7 @@ from pandera.errors import SchemaError, SchemaErrors
 from churn_model.logging_config import configure_logging
 from churn_model.predict import predict_churn
 from churn_model.schemas import PredictionRequest, PredictionResponse
+from churn_model.config import MODEL_VERSION
 
 configure_logging()
 logger = logging.getLogger(__name__)
@@ -42,7 +43,11 @@ async def log_request_latency(request: Request, call_next):
 @app.get("/health")
 def health_check() -> dict:
     logger.info("health_check_requested")
-    return {"status": "ok"}
+    return {
+        "status": "ok",
+        "model_version": MODEL_VERSION,
+    }
+
 
 
 @app.post("/predict", response_model=PredictionResponse)

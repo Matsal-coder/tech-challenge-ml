@@ -34,3 +34,8 @@ def test_predict_endpoint():
     assert 0 <= data["churn_probability"] <= 1
     assert data["prediction"] in [0, 1]
     assert "X-Latency-ms" in response.headers
+
+def test_predict_rejects_invalid_payload():
+    response = client.post("/predict", json={"wrong_key": {}})
+
+    assert response.status_code == 422

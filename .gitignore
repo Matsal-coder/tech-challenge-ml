@@ -22,4 +22,6 @@ mlflow.db
 
 # OS
 .DS_Store
-Thumbs.db
+Thumbs.dbmlruns/
+__pycache__/
+.venv/

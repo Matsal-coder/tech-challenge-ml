@@ -17,6 +17,7 @@ dependencies = [
     "pytest",
     "ruff",
     "pandera",
+    "httpx",
 ]
 
 [tool.ruff]

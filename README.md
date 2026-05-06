@@ -196,6 +196,32 @@ Isso permite:
 
 ---
 
+## 🏗️ Arquitetura da Solução
+
+A solução foi estruturada como uma aplicação de inferência em tempo real via API REST.
+
+Fluxo de inferência:
+
+```text
+Cliente / Sistema externo
+        ↓
+FastAPI (/predict)
+        ↓
+Validação Pydantic
+        ↓
+Validação Pandera
+        ↓
+Feature Engineering
+        ↓
+Preprocessador sklearn
+        ↓
+Modelo MLP PyTorch
+        ↓
+Probabilidade de churn + decisão
+
+A escolha por inferência em tempo real foi feita porque o caso de uso envolve identificar o risco de churn de um cliente individual no momento da consulta, permitindo integração futura com sistemas de CRM, atendimento ou campanhas de retenção.
+
+Também seria possível usar inferência batch para campanhas periódicas, mas a API em tempo real oferece maior flexibilidade para integração operacional.
 
 ## 🚀 Como Executar
 
@@ -327,6 +353,18 @@ POST /predict
 * Pandera
 * Pytest
 * Ruff
+
+---
+
+## 📚 Documentação Complementar
+
+Documentos adicionais do projeto:
+
+| Documento | Descrição |
+|-----------|------------|
+| `MODEL_CARD.md` | Documentação técnica do modelo selecionado |
+| `docs/deployment_architecture.md` | Arquitetura da solução e estratégia de deploy |
+| `docs/monitoring_plan.md` | Estratégia de monitoramento técnico e operacional |
 
 ---
 
